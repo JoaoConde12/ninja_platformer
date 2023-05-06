@@ -1,5 +1,5 @@
 import pygame
-from apoyo import importar_carpeta
+from importador import importar_carpeta
 
 class Jugador(pygame.sprite.Sprite):
     def __init__(self, posicion):
