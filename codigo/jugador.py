@@ -1,10 +1,14 @@
 import pygame
+from apoyo import importar_carpeta
 
 class Jugador(pygame.sprite.Sprite):
     def __init__(self, posicion):
         super().__init__()
-        self.image = pygame.Surface((32, 64))
-        self.image.fill((255, 0, 0))
+        self.cargar_personaje()
+        self.indice_frame = 0
+        self.velocidad_animacion = 0.15
+        self.image = self.animaciones["inactivo"][self.indice_frame]
+        self.image = pygame.transform.scale(self.image, (32, 65))
         self.rect = self.image.get_rect(topleft = posicion)
 
         #Movimiento del jugador
@@ -12,6 +16,18 @@ class Jugador(pygame.sprite.Sprite):
         self.velocidad = 7
         self.gravedad = 0.8
         self.velocidad_salto = -16
+
+
+    def cargar_personaje(self):
+        directorio_personaje = "../graficos/personaje/"
+        self.animaciones = {"inactivo": [],
+                            "correr": [],
+                            "saltar": []}
+        
+        for animacion in self.animaciones.keys():
+            directio_lleno = directorio_personaje + animacion
+            self.animaciones[animacion] = importar_carpeta(directio_lleno)
+
 
     def obtener_teclas(self):
         teclas = pygame.key.get_pressed()
@@ -26,14 +42,16 @@ class Jugador(pygame.sprite.Sprite):
         if teclas[pygame.K_SPACE]:
             self.saltar()
 
+
     def aplicar_gravedad(self):
         self.direccion.y += self.gravedad
         self.rect.y += self.direccion.y
 
+
     def saltar(self):
         self.direccion.y = self.velocidad_salto
 
+
     def update(self):
         self.obtener_teclas()
-        self.rect.x += self.direccion.x * self.velocidad
-        self.aplicar_gravedad()
+        
