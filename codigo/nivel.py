@@ -61,12 +61,19 @@ class Nivel:
 
         for sprite in self.bloques.sprites():
             if sprite.rect.colliderect(jugador.rect):
-                if jugador.direccion.y < 0:
-                    jugador.rect.top = sprite.rect.bottom
-                    jugador.direccion.y = 0
-                elif jugador.direccion.y > 0:
+                if jugador.direccion.y > 0:
                     jugador.rect.bottom = sprite.rect.top
                     jugador.direccion.y = 0
+                    jugador.en_suelo = True
+                elif jugador.direccion.y < 0:
+                    jugador.rect.top = sprite.rect.bottom
+                    jugador.direccion.y = 0
+                    jugador.en_techo = True
+            
+            if jugador.en_suelo and jugador.direccion.y < 0 or jugador.direccion.y > 1:
+                jugador.en_suelo = False
+            if jugador.en_techo and jugador.direccion.y > 0:
+                jugador.en_techo = False
 
 
     def ejecutar(self):
