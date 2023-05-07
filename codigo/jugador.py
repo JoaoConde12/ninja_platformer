@@ -57,12 +57,19 @@ class Jugador(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.image, (32, 65))
 
         #Comprobar si está en el rectangulo
-        if self.en_suelo:
+        if self.en_suelo and self.derecha:
+            self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
+        elif self.en_suelo and self.izquierda:
+            self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft)
+        elif self.en_suelo:
             self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+        elif self.en_techo and self.derecha:
+            self.rect = self.image.get_rect(topright = self.rect.topright)
+        elif self.en_techo and self.izquierda:
+            self.rect = self.image.get_rect(topleft = self.rect.topleft)
         elif self.en_techo:
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
-        else:
-            self.rect = self.image.get_rect(center = self.rect.center)
+
 
     def obtener_teclas(self):
         teclas = pygame.key.get_pressed()
