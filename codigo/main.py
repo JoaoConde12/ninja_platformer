@@ -18,7 +18,7 @@ while ejecutar:
         if event.type == pygame.QUIT:
             ejecutar = False
 
-    ventana.fill((0, 0, 0))
+    ventana.fill((210, 210, 210))
     mapa_beta.ejecutar()
 
     pygame.display.update()
