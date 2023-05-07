@@ -9,6 +9,7 @@ class Nivel:
         self.mostrar_surface = surface
         self.configurar_nivel(mapa_beta)
         self.avanzar_mapa = 0
+        self.x_actual = 0
 
 
     def configurar_nivel(self, layout):
@@ -50,9 +51,19 @@ class Nivel:
         for sprite in self.bloques.sprites():
             if sprite.rect.colliderect(jugador.rect):
                 if jugador.direccion.x < 0:
+                    jugador.izquierda = True
                     jugador.rect.left = sprite.rect.right
+                    self.x_actual = jugador.rect.left
                 elif jugador.direccion.x > 0:
                     jugador.rect.right = sprite.rect.left
+                    jugador.derecha = True
+                    self.x_actual = jugador.rect.right
+
+        if jugador.izquierda and (jugador.rect.left < self.x_actual or jugador.direccion.x >= 0):
+            jugador.izquierda = False
+        if jugador.derecha and (jugador.rect.right > self.x_actual or jugador.direccion.x <= 0):
+            jugador.derecha = False
+        
         
 
     def colision_vertical(self):
