@@ -24,15 +24,25 @@ Una vez comprobado que no hubieran problemas se le agrego las respectivas colisi
   3. Saltar
   4. Caer
 
-Luego se decidió cambiar el color del fondo del mapa para darle un poco más de vida, se decidió que el color fuera un gris claro. Posterior a esto se corrigieron algunos bugs y finalmente se subió todo el avance a Github
+Luego se decidió cambiar el color del fondo del mapa para darle un poco más de vida, se decidió que el color fuera un gris claro. Posterior a esto se corrigieron algunos bugs y finalmente se subió todo el primer avance del juego a Github.
+
+Después de entender como funciona la creación del nivel de un juego, entender como funcionan las colisiones del personaje con el terreno del mismo y comprender nuevos conceptos como los sprites, se decidió ahora sí hacer un nivel mucho mejor pensado y que tenga gráficos. Para ello se usó Tiled, el cual es un editor de niveles que facilita mucho más este proceso. Aún así, al ser la primera vez usándolo, se decidió experimentar previamente con el nivel para entender como funciona, visualizar una duración ideal para los niveles y también para calcular mejor los saltos del personaje. Lo que se hizo fue crear una carpeta aparte donde se importaron los archivos csv, las texturas del nivel (con pequeñas decoraciones al ser un nivel piloto) y los enemigos pero sin colisiones con el personaje.Si bien, este paso puede parecer algo innecesario, el haberlo hecho realmente hizo que se tenga una mejor compresión de como crear un nivel.
 
 ## Visualización del videojuego
 
-A continuación algunas imágenes de como se visualiza el videojuego:
+Imágenes del primer avance del videojuego (07/05/2023):
 
 ![Juego1](https://user-images.githubusercontent.com/132232545/236709151-904a0f03-b74e-4b0c-8675-c8ec7d3ba3c0.png)
 
 ![imagen_2023-05-07_190235777](https://user-images.githubusercontent.com/132232545/236709154-dc4a5428-8982-4823-8c03-c3798702cdd4.png)
+
+Imágenes con el nivel piloto usando Tiled (26/05/2023):
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/b5cdd10b-0897-4169-847c-7d5d9105598d)
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/a7c75002-08a9-407a-ba84-0f3ab23d12d3)
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/72eafcf4-2a0e-4d0a-ac72-dffbba1db051)
 
 ## Controles
 
