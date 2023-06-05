@@ -1,14 +1,15 @@
 import pygame
 from importador import importar_carpeta
 
+
 class Jugador(pygame.sprite.Sprite):
-    def __init__(self, posicion):
+    def __init__(self, posicion, surface):
         super().__init__()
         self.cargar_personaje()
         self.indice_frame = 0
         self.velocidad_animacion = 0.15
         self.image = self.animaciones["inactivo"][self.indice_frame]
-        self.image = pygame.transform.scale(self.image, (32, 65))
+        #self.image = pygame.transform.scale(self.image, (32, 65))
         self.rect = self.image.get_rect(topleft = posicion)
 
         #Movimiento del jugador
@@ -24,6 +25,8 @@ class Jugador(pygame.sprite.Sprite):
         self.en_techo = False
         self.izquierda = False
         self.derecha = False
+        self.saltos_disponibles = 2
+        self.saltos_realizados = 0
 
 
     def cargar_personaje(self):
@@ -50,11 +53,11 @@ class Jugador(pygame.sprite.Sprite):
 
         if self.mirar_derecha:
             self.image = imagen
-            self.image = pygame.transform.scale(self.image, (32, 65))
+            #self.image = pygame.transform.scale(self.image, (32, 65))
         else:
             virar_imaginen = pygame.transform.flip(imagen, True, False)
             self.image = virar_imaginen
-            self.image = pygame.transform.scale(self.image, (32, 65))
+            #self.image = pygame.transform.scale(self.image, (32, 65))
 
         #Comprobar si está en el rectangulo
         if self.en_suelo and self.derecha:
@@ -83,8 +86,15 @@ class Jugador(pygame.sprite.Sprite):
         else:
             self.direccion.x = 0
 
-        if teclas[pygame.K_SPACE] and self.en_suelo:
-            self.saltar()
+        if teclas[pygame.K_SPACE]:
+            if self.en_suelo:
+                self.saltar()
+                self.saltos_realizados = 1
+            elif self.saltos_realizados < 2 and self.direccion.y >= 0:
+                self.saltar()
+                self.saltos_realizados += 1
+
+            
 
 
     def obtener_estados(self):
@@ -103,13 +113,17 @@ class Jugador(pygame.sprite.Sprite):
         self.direccion.y += self.gravedad
         self.rect.y += self.direccion.y
 
+        if self.en_suelo:
+            self.saltos_disponibles = 2
+
 
     def saltar(self):
-            self.direccion.y = self.velocidad_salto
+        self.direccion.y = self.velocidad_salto
 
 
     def update(self):
         self.obtener_teclas()
         self.obtener_estados()
         self.animar()
+        
         
