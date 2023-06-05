@@ -4,7 +4,7 @@ from bloques import Bloque_estatico, Animacion_olas
 
 class Agua(Bloque_estatico):
     def __init__(self, tamaño, x, y):
-        super().__init__(tamaño, x, y, pygame.image.load("../graficos/suelos/19.png").convert_alpha())
+        super().__init__(tamaño, x, y, pygame.image.load("../graficos/decoraciones/agua/agua.png").convert_alpha())
         self.rect = self.image.get_rect(topleft = (x, y))
 
 
