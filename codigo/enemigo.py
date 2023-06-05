@@ -4,7 +4,7 @@ from bloques import Animacion
 
 class Enemigo(Animacion):
     def __init__(self, tamaño, x, y):
-        super().__init__(tamaño, x, y, "../graficos/enemig/correr")
+        super().__init__(tamaño, x, y, "../graficos/enemigo1/sprites")
         self.rect.y += tamaño - self.image.get_size()[1]
         self.velocidad = 3
 
