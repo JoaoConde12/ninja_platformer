@@ -1,0 +1,2 @@
+import pygame
+from bloques import Bloque_estatico
