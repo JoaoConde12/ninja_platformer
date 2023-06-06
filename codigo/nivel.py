@@ -7,6 +7,7 @@ from bloques import Bloque, Bloque_estatico
 from jugador import Jugador
 from enemigo import Enemigo
 from vegetacion import Arbol1, Arbol2, Tronco, Arbusto1, Arbusto2, Arbusto3, Arbusto4
+from decoraciones import Roca, Cartel1, Cartel2, Cajas
 from agua import Agua, Olas
 
 
@@ -65,6 +66,20 @@ class Nivel:
         self.olas_sprites = self.crear_grupos_bloques(olas_layout, "olas")
 
 
+        #Decoraciones
+        rocas_layout = importar_csv_layout(nivel1["rocas"])
+        self.rocas_sprites = self.crear_grupos_bloques(rocas_layout, "rocas")
+
+        cartel1_layout = importar_csv_layout(nivel1["cartel1"])
+        self.cartel1_sprites = self.crear_grupos_bloques(cartel1_layout, "cartel1")
+
+        cartel2_layout = importar_csv_layout(nivel1["cartel2"])
+        self.cartel2_sprites = self.crear_grupos_bloques(cartel2_layout, "cartel2")
+
+        cajas_layout = importar_csv_layout(nivel1["cajas"])
+        self.cajas_sprites = self.crear_grupos_bloques(cajas_layout, "cajas")
+
+
     def crear_grupos_bloques(self, layout, tipo):
         sprite_grupo = pygame.sprite.Group()
 
@@ -108,6 +123,18 @@ class Nivel:
 
                     if tipo == "agua":
                         sprite = Agua(tamaño_bloque, x, y)
+
+                    if tipo == "rocas":
+                        sprite = Roca(tamaño_bloque, x, y)
+
+                    if tipo == "cartel1":
+                        sprite = Cartel1(tamaño_bloque, x, y)
+
+                    if tipo == "cartel2":
+                        sprite = Cartel2(tamaño_bloque, x, y)
+
+                    if tipo == "cajas":
+                        sprite = Cajas(tamaño_bloque, x, y)
 
                     if tipo == "olas":
                         sprite = Olas(tamaño_bloque, x, y, "../graficos/olas")
@@ -211,7 +238,7 @@ class Nivel:
         """
         #Ejecución de todo el juego
         
-        #Arboles y troncos
+        #Arboles, troncos, arbustos y rocas
         self.arbusto4_sprites.update(self.cambio_mundo)
         self.arbusto4_sprites.draw(self.ventana_surface)
 
@@ -227,11 +254,25 @@ class Nivel:
         self.arbol1_sprites.update(self.cambio_mundo)
         self.arbol1_sprites.draw(self.ventana_surface)
 
+        self.rocas_sprites.update(self.cambio_mundo)
+        self.rocas_sprites.draw(self.ventana_surface)
+
         self.arbusto3_sprites.update(self.cambio_mundo)
         self.arbusto3_sprites.draw(self.ventana_surface)
 
         self.arbusto1_sprites.update(self.cambio_mundo)
         self.arbusto1_sprites.draw(self.ventana_surface)
+
+
+        #Carteles y cajas
+        self.cartel1_sprites.update(self.cambio_mundo)
+        self.cartel1_sprites.draw(self.ventana_surface)
+
+        self.cartel2_sprites.update(self.cambio_mundo)
+        self.cartel2_sprites.draw(self.ventana_surface)
+
+        self.cajas_sprites.update(self.cambio_mundo)
+        self.cajas_sprites.draw(self.ventana_surface)
 
 
         #Agua y olas
