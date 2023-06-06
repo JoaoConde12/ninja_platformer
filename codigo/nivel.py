@@ -6,7 +6,7 @@ from importador import importar_csv_layout, importar_graficos_terreno
 from bloques import Bloque, Bloque_estatico
 from jugador import Jugador
 from enemigo import Enemigo
-from vegetacion import Arbol1, Arbol2, Tronco
+from vegetacion import Arbol1, Arbol2, Tronco, Arbusto1, Arbusto2, Arbusto3, Arbusto4
 from agua import Agua, Olas
 
 
@@ -24,6 +24,11 @@ class Nivel:
         self.configuracion_personaje(personaje_layout)
 
 
+        #Enemigo
+        #enemigo_layout = importar_csv_layout(nivel1["enemigo"])
+        #self.enemigo_sprites = self.crear_grupos_bloques(enemigo_layout, "enemigo")
+
+
         #Configuración de terreno
         terreno_layout = importar_csv_layout(nivel1["terreno"])
         self.terreno_sprites = self.crear_grupos_bloques(terreno_layout, "terreno")
@@ -39,10 +44,17 @@ class Nivel:
         tronco_layout = importar_csv_layout(nivel1["troncos"])
         self.tronco_sprites = self.crear_grupos_bloques(tronco_layout, "troncos")
 
+        arbusto1_layout = importar_csv_layout(nivel1["arbusto1"])
+        self.arbusto1_sprites = self.crear_grupos_bloques(arbusto1_layout, "arbusto1")
 
-        #Enemigo
-        #enemigo_layout = importar_csv_layout(nivel1["enemigo"])
-        #self.enemigo_sprites = self.crear_grupos_bloques(enemigo_layout, "enemigo")
+        arbusto2_layout = importar_csv_layout(nivel1["arbusto2"])
+        self.arbusto2_sprites = self.crear_grupos_bloques(arbusto2_layout, "arbusto2")
+
+        arbusto3_layout = importar_csv_layout(nivel1["arbusto3"])
+        self.arbusto3_sprites = self.crear_grupos_bloques(arbusto3_layout, "arbusto3")
+
+        arbusto4_layout = importar_csv_layout(nivel1["arbusto4"])
+        self.arbusto4_sprites = self.crear_grupos_bloques(arbusto4_layout, "arbusto4")
 
 
         #Agua y olas
@@ -75,6 +87,18 @@ class Nivel:
                     
                     if tipo == "troncos":
                         sprite = Tronco(tamaño_bloque, x, y)
+                    
+                    if tipo == "arbusto1":
+                        sprite = Arbusto1(tamaño_bloque, x, y)
+
+                    if tipo == "arbusto2":
+                        sprite = Arbusto2(tamaño_bloque, x, y)
+
+                    if tipo == "arbusto3":
+                        sprite = Arbusto3(tamaño_bloque, x, y)
+
+                    if tipo == "arbusto4":
+                        sprite = Arbusto4(tamaño_bloque, x, y)
 
                     if tipo == "enemigo":
                         sprite = Enemigo(tamaño_bloque, x, y)
@@ -162,25 +186,60 @@ class Nivel:
 
         
     def ejecutar(self):
+
+        #Orden
+        """
+        1. Personaje
+        2. Enemigos
+        3. Terreno
+        4. Agua
+        5. Olas
+        6. Monedas
+        7. Mush salto
+        8. Mush dec
+        9. Cajas
+        10. Cartel 1
+        11. Cartel 2
+        12. Arbusto 1
+        13. Arbusto 3
+        14. Rocas
+        15. Arbol 1
+        16. Arbol 2
+        17. Troncos
+        18. Arbusto 2
+        19. Arbusto 4
+        """
         #Ejecución de todo el juego
         
         #Arboles y troncos
-        self.arbol1_sprites.update(self.cambio_mundo)
-        self.arbol1_sprites.draw(self.ventana_surface)
+        self.arbusto4_sprites.update(self.cambio_mundo)
+        self.arbusto4_sprites.draw(self.ventana_surface)
+
+        self.arbusto2_sprites.update(self.cambio_mundo)
+        self.arbusto2_sprites.draw(self.ventana_surface)
+        
+        self.tronco_sprites.update(self.cambio_mundo)
+        self.tronco_sprites.draw(self.ventana_surface)
 
         self.arbol2_sprites.update(self.cambio_mundo)
         self.arbol2_sprites.draw(self.ventana_surface)
 
-        self.tronco_sprites.update(self.cambio_mundo)
-        self.tronco_sprites.draw(self.ventana_surface)
+        self.arbol1_sprites.update(self.cambio_mundo)
+        self.arbol1_sprites.draw(self.ventana_surface)
+
+        self.arbusto3_sprites.update(self.cambio_mundo)
+        self.arbusto3_sprites.draw(self.ventana_surface)
+
+        self.arbusto1_sprites.update(self.cambio_mundo)
+        self.arbusto1_sprites.draw(self.ventana_surface)
 
 
         #Agua y olas
-        self.agua_sprites.update(self.cambio_mundo)
-        self.agua_sprites.draw(self.ventana_surface)
-
         self.olas_sprites.update(self.cambio_mundo)
         self.olas_sprites.draw(self.ventana_surface)
+
+        self.agua_sprites.update(self.cambio_mundo)
+        self.agua_sprites.draw(self.ventana_surface)
 
 
         #Terreno
