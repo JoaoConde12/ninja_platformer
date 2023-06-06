@@ -9,6 +9,7 @@ from enemigo import Enemigo
 from vegetacion import Arbol1, Arbol2, Tronco, Arbusto1, Arbusto2, Arbusto3, Arbusto4
 from decoraciones import Roca, Cartel1, Cartel2, Cajas
 from agua import Agua, Olas
+from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
@@ -80,6 +81,14 @@ class Nivel:
         self.cajas_sprites = self.crear_grupos_bloques(cajas_layout, "cajas")
 
 
+        #Champiñones
+        mushroom_salto_layout = importar_csv_layout(nivel1["mushroom_salto"])
+        self.mushroom_salto_sprites = self.crear_grupos_bloques(mushroom_salto_layout, "mushroom_salto")
+
+        mushroom_dec_layout = importar_csv_layout(nivel1["mushroom_dec"])
+        self.mushroom_dec_sprites = self.crear_grupos_bloques(mushroom_dec_layout, "mushroom_dec")
+
+
     def crear_grupos_bloques(self, layout, tipo):
         sprite_grupo = pygame.sprite.Group()
 
@@ -135,6 +144,12 @@ class Nivel:
 
                     if tipo == "cajas":
                         sprite = Cajas(tamaño_bloque, x, y)
+
+                    if tipo == "mushroom_salto":
+                        sprite = Mushroom_salto(tamaño_bloque, x, y)
+
+                    if tipo == "mushroom_dec":
+                        sprite = Mushroom_decoracion(tamaño_bloque, x, y)
 
                     if tipo == "olas":
                         sprite = Olas(tamaño_bloque, x, y, "../graficos/olas")
@@ -273,6 +288,14 @@ class Nivel:
 
         self.cajas_sprites.update(self.cambio_mundo)
         self.cajas_sprites.draw(self.ventana_surface)
+
+
+        #Champiñones
+        self.mushroom_salto_sprites.update(self.cambio_mundo)
+        self.mushroom_salto_sprites.draw(self.ventana_surface)
+
+        self.mushroom_dec_sprites.update(self.cambio_mundo)
+        self.mushroom_dec_sprites.draw(self.ventana_surface)
 
 
         #Agua y olas
