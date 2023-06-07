@@ -7,7 +7,7 @@ from bloques import Bloque, Bloque_estatico
 from jugador import Jugador
 from enemigo import Enemigo
 from vegetacion import Arbol1, Arbol2, Tronco, Arbusto1, Arbusto2, Arbusto3, Arbusto4
-from decoraciones import Roca, Cartel1, Cartel2, Cajas
+from decoraciones import Roca, Cartel1, Cartel2, Cajas, Monedas
 from agua import Agua, Olas
 from mushrooms import Mushroom_salto, Mushroom_decoracion
 
@@ -25,11 +25,16 @@ class Nivel:
         self.goal = pygame.sprite.GroupSingle()
         self.configuracion_personaje(personaje_layout)
 
+        choque_personaje_layout = importar_csv_layout(nivel1["choque_personaje"])
+        self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
+
 
         #Enemigo
-        #enemigo_layout = importar_csv_layout(nivel1["enemigo"])
-        #self.enemigo_sprites = self.crear_grupos_bloques(enemigo_layout, "enemigo")
+        enemigo_layout = importar_csv_layout(nivel1["enemigo"])
+        self.enemigo_sprites = self.crear_grupos_bloques(enemigo_layout, "enemigo")
 
+        choque_enemigo_layout = importar_csv_layout(nivel1["choque_enemigo"])
+        self.choque_enemigo_sprites = self.crear_grupos_bloques(choque_enemigo_layout, "choque_enemigo")
 
         #Configuración de terreno
         terreno_layout = importar_csv_layout(nivel1["terreno"])
@@ -65,6 +70,11 @@ class Nivel:
 
         olas_layout = importar_csv_layout(nivel1["olas"])
         self.olas_sprites = self.crear_grupos_bloques(olas_layout, "olas")
+
+
+        #Monedas
+        monedas_layout = importar_csv_layout(nivel1["monedas"])
+        self.monedas_sprites = self.crear_grupos_bloques(monedas_layout, "monedas")
 
 
         #Decoraciones
@@ -154,9 +164,28 @@ class Nivel:
                     if tipo == "olas":
                         sprite = Olas(tamaño_bloque, x, y, "../graficos/olas")
 
+                    if tipo == "choque_enemigo":
+                        sprite = Bloque(tamaño_bloque, x, y)
+
+                    if tipo == "choque_personaje":
+                        sprite = Bloque(tamaño_bloque, x, y)
+
+                    if tipo == "monedas":
+                        if valor == "0":
+                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_oro")
+                        if valor == "1":
+                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_plata")
+                    
+
                     sprite_grupo.add(sprite)
 
         return sprite_grupo
+
+
+    def colision_enemigo(self):
+        for enemigo in self.enemigo_sprites.sprites():
+            if pygame.sprite.spritecollide(enemigo, self.choque_enemigo_sprites, False):
+                enemigo.reversa()
 
     
     def configuracion_personaje(self, layout):
@@ -188,8 +217,9 @@ class Nivel:
     def colision_horizontal(self):
         jugador = self.jugador.sprite
         jugador.rect.x += jugador.direccion.x * jugador.velocidad
+        sprites_colision = self.terreno_sprites.sprites() + self.cajas_sprites.sprites() + self.choque_personaje_sprites.sprites()
 
-        for sprite in self.terreno_sprites.sprites():
+        for sprite in sprites_colision:
             if sprite.rect.colliderect(jugador.rect):
                 if jugador.direccion.x < 0:
                     jugador.izquierda = True
@@ -209,8 +239,9 @@ class Nivel:
     def colision_vertical(self):
         jugador = self.jugador.sprite   
         jugador.aplicar_gravedad()
+        sprites_colision = self.terreno_sprites.sprites() + self.cajas_sprites.sprites() + self.choque_personaje_sprites.sprites()
     
-        for sprite in self.terreno_sprites.sprites():
+        for sprite in sprites_colision:
             if sprite.rect.colliderect(jugador.rect):
                 if jugador.direccion.y > 0:
                     jugador.rect.bottom = sprite.rect.top
@@ -306,13 +337,25 @@ class Nivel:
         self.agua_sprites.draw(self.ventana_surface)
 
 
+        #Monedas
+        self.monedas_sprites.update(self.cambio_mundo)
+        self.monedas_sprites.draw(self.ventana_surface)
+
+
         #Terreno
         self.terreno_sprites.update(self.cambio_mundo)
         self.terreno_sprites.draw(self.ventana_surface)
         
+        #Enemigos
+        self.enemigo_sprites.update(self.cambio_mundo)
+        self.choque_enemigo_sprites.update(self.cambio_mundo)
+        self.colision_enemigo()
+        self.enemigo_sprites.draw(self.ventana_surface)
+
 
         #Jugador sprites
         self.jugador.update()
+        self.choque_personaje_sprites.update(self.cambio_mundo)
         self.colision_horizontal()
         self.colision_vertical()
         self.mover_camara_x()
