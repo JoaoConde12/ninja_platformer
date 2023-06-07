@@ -9,6 +9,8 @@ nivel1 = {
     "cajas": "../niveles/nivel1_csv/nivel1_cajas.csv",
     "cartel1": "../niveles/nivel1_csv/nivel1_cartel1.csv",
     "cartel2": "../niveles/nivel1_csv/nivel1_cartel2.csv",
+    "choque_enemigo": "../niveles/nivel1_csv/nivel1_choque_enemigo.csv",
+    "choque_personaje": "../niveles/nivel1_csv/nivel1_choque_personaje.csv",
     "enemigo": "../niveles/nivel1_csv/nivel1_enemigo.csv",
     "monedas": "../niveles/nivel1_csv/nivel1_monedas.csv",
     "mushroom_dec": "../niveles/nivel1_csv/nivel1_mushroom_dec.csv",
