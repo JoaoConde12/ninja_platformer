@@ -9,6 +9,7 @@ from data_niveles import nivel1
 #Configuracion incial del juego
 pygame.init()
 ventana = pygame.display.set_mode((ventana_ancho, ventana_alto))
+pygame.display.set_caption("Ninja Platformer")
 reloj = pygame.time.Clock()
 nivel = Nivel(nivel1, ventana)
 
