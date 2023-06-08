@@ -1,6 +1,6 @@
 #Importación de librerías y módulos
 import pygame
-from data_niveles import nivel1
+from data_niveles import niveles
 from configuraciones import tamaño_bloque, ventana_ancho
 from importador import importar_csv_layout, importar_graficos_terreno
 from bloques import Bloque, Bloque_estatico
@@ -13,89 +13,95 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel, surface):
+    def __init__(self, nivel_actual, surface, crear_menu):
 
         #Configuración general
         self.ventana_surface = surface
         self.cambio_mundo = 0
 
+        #Conección con el Menú
+        self.crear_menu = crear_menu
+        self.nivel_actual = nivel_actual
+        data_nivel = niveles[self.nivel_actual]
+        self.siguiente_nivel = data_nivel["desbloquea"]
+
         #Jugador
-        personaje_layout = importar_csv_layout(nivel1["personaje"])
+        personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
         self.configuracion_personaje(personaje_layout)
 
-        choque_personaje_layout = importar_csv_layout(nivel1["choque_personaje"])
+        choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
 
 
         #Enemigo
-        enemigo_layout = importar_csv_layout(nivel1["enemigo"])
+        enemigo_layout = importar_csv_layout(data_nivel["enemigo"])
         self.enemigo_sprites = self.crear_grupos_bloques(enemigo_layout, "enemigo")
 
-        choque_enemigo_layout = importar_csv_layout(nivel1["choque_enemigo"])
+        choque_enemigo_layout = importar_csv_layout(data_nivel["choque_enemigo"])
         self.choque_enemigo_sprites = self.crear_grupos_bloques(choque_enemigo_layout, "choque_enemigo")
 
         #Configuración de terreno
-        terreno_layout = importar_csv_layout(nivel1["terreno"])
+        terreno_layout = importar_csv_layout(data_nivel["terreno"])
         self.terreno_sprites = self.crear_grupos_bloques(terreno_layout, "terreno")
 
 
         #Arboles y troncos
-        arbol1_layout = importar_csv_layout(nivel1["arbol1"])
+        arbol1_layout = importar_csv_layout(data_nivel["arbol1"])
         self.arbol1_sprites = self.crear_grupos_bloques(arbol1_layout, "arbol1")
 
-        arbol2_layout = importar_csv_layout(nivel1["arbol2"])
+        arbol2_layout = importar_csv_layout(data_nivel["arbol2"])
         self.arbol2_sprites = self.crear_grupos_bloques(arbol2_layout, "arbol2")
 
-        tronco_layout = importar_csv_layout(nivel1["troncos"])
+        tronco_layout = importar_csv_layout(data_nivel["troncos"])
         self.tronco_sprites = self.crear_grupos_bloques(tronco_layout, "troncos")
 
-        arbusto1_layout = importar_csv_layout(nivel1["arbusto1"])
+        arbusto1_layout = importar_csv_layout(data_nivel["arbusto1"])
         self.arbusto1_sprites = self.crear_grupos_bloques(arbusto1_layout, "arbusto1")
 
-        arbusto2_layout = importar_csv_layout(nivel1["arbusto2"])
+        arbusto2_layout = importar_csv_layout(data_nivel["arbusto2"])
         self.arbusto2_sprites = self.crear_grupos_bloques(arbusto2_layout, "arbusto2")
 
-        arbusto3_layout = importar_csv_layout(nivel1["arbusto3"])
+        arbusto3_layout = importar_csv_layout(data_nivel["arbusto3"])
         self.arbusto3_sprites = self.crear_grupos_bloques(arbusto3_layout, "arbusto3")
 
-        arbusto4_layout = importar_csv_layout(nivel1["arbusto4"])
+        arbusto4_layout = importar_csv_layout(data_nivel["arbusto4"])
         self.arbusto4_sprites = self.crear_grupos_bloques(arbusto4_layout, "arbusto4")
 
 
         #Agua y olas
-        agua_layout = importar_csv_layout(nivel1["agua"])
+        agua_layout = importar_csv_layout(data_nivel["agua"])
         self.agua_sprites = self.crear_grupos_bloques(agua_layout, "agua")
 
-        olas_layout = importar_csv_layout(nivel1["olas"])
+        olas_layout = importar_csv_layout(data_nivel["olas"])
         self.olas_sprites = self.crear_grupos_bloques(olas_layout, "olas")
 
 
         #Monedas
-        monedas_layout = importar_csv_layout(nivel1["monedas"])
+        monedas_layout = importar_csv_layout(data_nivel["monedas"])
         self.monedas_sprites = self.crear_grupos_bloques(monedas_layout, "monedas")
 
 
         #Decoraciones
-        rocas_layout = importar_csv_layout(nivel1["rocas"])
+        rocas_layout = importar_csv_layout(data_nivel["rocas"])
         self.rocas_sprites = self.crear_grupos_bloques(rocas_layout, "rocas")
 
-        cartel1_layout = importar_csv_layout(nivel1["cartel1"])
+        cartel1_layout = importar_csv_layout(data_nivel["cartel1"])
         self.cartel1_sprites = self.crear_grupos_bloques(cartel1_layout, "cartel1")
 
-        cartel2_layout = importar_csv_layout(nivel1["cartel2"])
+        cartel2_layout = importar_csv_layout(data_nivel["cartel2"])
         self.cartel2_sprites = self.crear_grupos_bloques(cartel2_layout, "cartel2")
 
-        cajas_layout = importar_csv_layout(nivel1["cajas"])
+        cajas_layout = importar_csv_layout(data_nivel["cajas"])
         self.cajas_sprites = self.crear_grupos_bloques(cajas_layout, "cajas")
 
 
         #Champiñones
-        mushroom_salto_layout = importar_csv_layout(nivel1["mushroom_salto"])
+        mushroom_salto_layout = importar_csv_layout(data_nivel["mushroom_salto"])
         self.mushroom_salto_sprites = self.crear_grupos_bloques(mushroom_salto_layout, "mushroom_salto")
 
-        mushroom_dec_layout = importar_csv_layout(nivel1["mushroom_dec"])
+        mushroom_dec_layout = importar_csv_layout(data_nivel["mushroom_dec"])
         self.mushroom_dec_sprites = self.crear_grupos_bloques(mushroom_dec_layout, "mushroom_dec")
 
 
@@ -196,6 +202,9 @@ class Nivel:
                 if valor == "0":
                     sprite = Jugador((x, y), self.ventana_surface)
                     self.jugador.add(sprite)
+                if valor == "1":
+                    sprite = Bloque_estatico(tamaño_bloque, x, y, self.ventana_surface)
+                    self.goal.add(sprite)
 
 
     def mover_camara_x(self):
@@ -257,6 +266,14 @@ class Nivel:
             if jugador.en_techo and jugador.direccion.y > 0:
                 jugador.en_techo = False
 
+
+    def comprobar_muerte(self):
+        if self.jugador.sprite.rect.top > ventana_ancho:
+            self.crear_menu(self.nivel_actual, 0)
+
+    def comprobar_avance(self):
+        if pygame.sprite.spritecollide(self.jugador.sprite, self.goal, False):
+            self.crear_menu(self.nivel_actual, self.siguiente_nivel)
         
     def ejecutar(self):
 
@@ -361,4 +378,5 @@ class Nivel:
         self.mover_camara_x()
         self.jugador.draw(self.ventana_surface)
         self.goal.update(self.cambio_mundo)
-        self.goal.draw(self.ventana_surface)
+        self.comprobar_muerte()
+        self.comprobar_avance()
