@@ -4,6 +4,31 @@ import math
 from configuraciones import *
 from nivel import Nivel
 from data_niveles import nivel1
+from menu import Menu
+
+
+class Juego():
+    def __init__(self):
+        self.nivel_maximo = 1
+        self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
+        self.estado = "menu" 
+
+    def crear_nivel(self, nivel_actual):
+        self.nivel = Nivel(nivel_actual, ventana, self.crear_menu)
+        self.estado = "nivel"
+    
+    def crear_menu(self, nivel_actual, siguiente_nivel):
+        if siguiente_nivel > self.nivel_maximo:
+            self.nivel_maximo = siguiente_nivel
+        self.menu = Menu(nivel_actual, self.nivel_maximo, ventana, self.crear_nivel)
+        self.estado = "menu"
+
+
+    def ejecutar(self):
+        if self.estado == "menu":
+            self.menu.ejecutar()
+        else:
+            self.nivel.ejecutar()
 
 
 #Configuracion incial del juego
@@ -11,7 +36,7 @@ pygame.init()
 ventana = pygame.display.set_mode((ventana_ancho, ventana_alto))
 pygame.display.set_caption("Ninja Platformer")
 reloj = pygame.time.Clock()
-nivel = Nivel(nivel1, ventana)
+juego = Juego()
 
 
 #Cargar fondo del juego
@@ -36,7 +61,7 @@ while ejecutar:
             ejecutar = False
 
 
-    nivel.ejecutar()
+    juego.ejecutar()
 
 
     pygame.display.update()
