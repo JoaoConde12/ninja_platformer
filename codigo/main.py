@@ -28,7 +28,10 @@ class Juego():
         if self.estado == "menu":
             self.menu.ejecutar()
         else:
+            for i in range(0, patrones):
+                ventana.blit(bg, (i * bg_ancho, 0))
             self.nivel.ejecutar()
+            
 
 
 #Configuracion incial del juego
@@ -51,8 +54,7 @@ while ejecutar:
     
 
     #Cargar fondo
-    for i in range(0, patrones):
-        ventana.blit(bg, (i * bg_ancho, 0))
+    ventana.fill("black")
 
 
     #Eventos del juego
