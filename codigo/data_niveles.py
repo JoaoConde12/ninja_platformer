@@ -19,5 +19,25 @@ nivel1 = {
     "personaje": "../niveles/nivel1_csv/nivel1_personaje.csv",
     "rocas": "../niveles/nivel1_csv/nivel1_rocas.csv",
     "terreno": "../niveles/nivel1_csv/nivel1_terreno.csv",
-    "troncos": "../niveles/nivel1_csv/nivel1_troncos.csv"
+    "troncos": "../niveles/nivel1_csv/nivel1_troncos.csv",
+    "posicion": (140, 352),
+    "desbloquea": 1
+}
+
+nivel2 = {
+    "posicion": (625, 352),
+    "contenido": "Este es el nivel 2",
+    "desbloquea": 2
+}
+
+nivel3 = {
+    "posicion": (1140, 352),
+    "contenido": "Este es el nivel 3",
+    "desbloquea": 2
+}
+
+niveles = {
+    0: nivel1,
+    1: nivel2,
+    2: nivel3,
 }
