@@ -268,7 +268,7 @@ class Nivel:
 
 
     def comprobar_muerte(self):
-        if self.jugador.sprite.rect.top > ventana_ancho:
+        if pygame.sprite.spritecollide(self.jugador.sprite, self.olas_sprites, False):
             self.crear_menu(self.nivel_actual, 0)
 
     def comprobar_avance(self):
