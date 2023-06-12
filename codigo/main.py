@@ -26,7 +26,9 @@ class Juego():
 
     def ejecutar(self):
         if self.estado == "menu":
+            ventana.blit(bg_menu, (0,0))
             self.menu.ejecutar()
+            
         else:
             for i in range(0, patrones):
                 ventana.blit(bg, (i * bg_ancho, 0))
@@ -44,6 +46,7 @@ juego = Juego()
 
 #Cargar fondo del juego
 bg = pygame.image.load("../graficos/fondo/fondo.png")
+bg_menu = pygame.image.load("../graficos/fondo/menu_fondo.png")
 bg_ancho = bg.get_width()
 patrones = math.ceil(ventana_ancho / bg_ancho)
 
@@ -54,8 +57,6 @@ while ejecutar:
     
 
     #Cargar fondo
-    ventana.fill("black")
-
 
     #Eventos del juego
     for event in pygame.event.get():
