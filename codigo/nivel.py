@@ -28,7 +28,7 @@ class Nivel:
         #Jugador
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
-        self.goal = pygame.sprite.GroupSingle()
+        self.goal = pygame.sprite.Group()
         self.configuracion_personaje(personaje_layout)
 
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
