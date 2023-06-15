@@ -24,8 +24,7 @@ class Icono(pygame.sprite.Sprite):
     def __init__(self, posicion):
         super().__init__()
         self.posicion = posicion
-        self.image = pygame.Surface((20, 20))
-        self.image.fill("red")
+        self.image = pygame.image.load("../graficos/menu/ninja.png")
         self.rect = self.image.get_rect(center = posicion)
 
     def update(self):
