@@ -13,11 +13,11 @@ class Juego():
         self.nivel_maximo = 0
         self.vida_maxima = 40
         self.vida_actual = 40
-        self.contador_monedas = 0
+        self.contador_monedas = 0 
 
-        #Creación de la vida
+        #Creacion menú
         self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
-        self.estado = "menu" 
+        self.estado = "menu"
 
         #Interfaz
         self.interfaz = Interfaz(ventana)
@@ -41,6 +41,15 @@ class Juego():
         self.vida_actual += cantidad
 
 
+    def game_over(self):
+        if self.vida_actual <= 0:
+            self.vida_actual = 40
+            self.monedas = 0
+            self.nivel_maximo = 0
+            self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
+            self.estado = "menu"
+
+
     def ejecutar(self):
         if self.estado == "menu":
             ventana.blit(bg_menu, (0,0))
@@ -52,6 +61,7 @@ class Juego():
             self.nivel.ejecutar()
             self.interfaz.mostrar_vida(self.vida_actual, self.vida_maxima)
             self.interfaz.mostrar_monedas(self.contador_monedas)
+            self.game_over()
             
 
 
