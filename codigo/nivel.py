@@ -13,7 +13,7 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño):
 
         #Configuración general
         self.ventana_surface = surface
@@ -29,7 +29,7 @@ class Nivel:
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.Group()
-        self.configuracion_personaje(personaje_layout)
+        self.configuracion_personaje(personaje_layout, recibir_daño)
 
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
@@ -196,13 +196,13 @@ class Nivel:
                 enemigo.reversa()
 
     
-    def configuracion_personaje(self, layout):
+    def configuracion_personaje(self, layout, recibir_daño):
         for fila_indice, fila in enumerate(layout):
             for columna_indice, valor in enumerate(fila):
                 x = columna_indice * tamaño_bloque
                 y = fila_indice * tamaño_bloque
                 if valor == "0":
-                    sprite = Jugador((x, y), self.ventana_surface)
+                    sprite = Jugador((x, y), self.ventana_surface, recibir_daño)
                     self.jugador.add(sprite)
                 if valor == "1":
                     sprite = Bloque_estatico(tamaño_bloque, x, y, self.ventana_surface)
@@ -285,6 +285,21 @@ class Nivel:
             for moneda in colision_monedas:
                 self.aumentar_monedas(moneda.valor)
 
+
+    def comprobar_colision_enemigos(self):
+        colision_enemigo = pygame.sprite.spritecollide(self.jugador.sprite, self.enemigo_sprites, False)
+
+        if colision_enemigo:
+            for enemigo in colision_enemigo:
+                enemigo_center = enemigo.rect.centery
+                enemigo_top = enemigo.rect.top
+                jugador_bottom = self.jugador.sprite.rect.bottom
+
+                if enemigo_top < jugador_bottom < enemigo_center and self.jugador.sprite.direccion.y >= 0:
+                    self.jugador.sprite.direccion.y = -10
+                    enemigo.kill()
+                else:
+                    self.jugador.sprite.obtener_daño()
 
     def ejecutar(self):
 
@@ -393,3 +408,4 @@ class Nivel:
         self.comprobar_avance()
 
         self.comprobar_colison_monedas()
+        self.comprobar_colision_enemigos()
