@@ -3,18 +3,27 @@ import pygame
 import math
 from configuraciones import *
 from nivel import Nivel
-from data_niveles import nivel1
 from menu import Menu
+from interfaz import Interfaz
 
 
 class Juego():
     def __init__(self):
-        self.nivel_maximo = 1
+        #Atributos del juego
+        self.nivel_maximo = 0
+        self.vida_maxima = 40
+        self.vida_actual = 40
+        self.contador_monedas = 0
+
+        #Creación de la vida
         self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
         self.estado = "menu" 
 
+        #Interfaz
+        self.interfaz = Interfaz(ventana)
+
     def crear_nivel(self, nivel_actual):
-        self.nivel = Nivel(nivel_actual, ventana, self.crear_menu)
+        self.nivel = Nivel(nivel_actual, ventana, self.crear_menu, self.aumentar_monedas, self.recibir_daño)
         self.estado = "nivel"
     
     def crear_menu(self, nivel_actual, siguiente_nivel):
@@ -22,6 +31,14 @@ class Juego():
             self.nivel_maximo = siguiente_nivel
         self.menu = Menu(nivel_actual, self.nivel_maximo, ventana, self.crear_nivel)
         self.estado = "menu"
+
+
+    def aumentar_monedas(self, cantidad):
+        self.contador_monedas += cantidad
+
+
+    def recibir_daño(self, cantidad):
+        self.vida_actual += cantidad
 
 
     def ejecutar(self):
@@ -33,6 +50,8 @@ class Juego():
             for i in range(0, patrones):
                 ventana.blit(bg, (i * bg_ancho, 0))
             self.nivel.ejecutar()
+            self.interfaz.mostrar_vida(self.vida_actual, self.vida_maxima)
+            self.interfaz.mostrar_monedas(self.contador_monedas)
             
 
 
