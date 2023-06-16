@@ -31,8 +31,9 @@ class Cajas(Bloque_estatico):
 
 
 class Monedas(Animacion):
-    def __init__(self, tamaño, x, y, direccion):
+    def __init__(self, tamaño, x, y, direccion, valor):
         super().__init__(tamaño, x, y, direccion)
         centro_x = x + int(tamaño / 2)
         centro_y = y + int(tamaño / 2)
         self.rect = self.image.get_rect(center = (centro_x, centro_y))
+        self.valor = valor
