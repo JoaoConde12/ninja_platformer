@@ -180,9 +180,9 @@ class Nivel:
 
                     if tipo == "monedas":
                         if valor == "0":
-                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_oro")
+                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_oro", 5)
                         if valor == "1":
-                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_plata")
+                            sprite = Monedas(tamaño_bloque, x, y, "../graficos/monedas/moneda_plata", 1)
                     
 
                     sprite_grupo.add(sprite)
@@ -283,7 +283,7 @@ class Nivel:
         colision_monedas = pygame.sprite.spritecollide(self.jugador.sprite, self.monedas_sprites, True)
         if colision_monedas:
             for moneda in colision_monedas:
-                self.aumentar_monedas(1)
+                self.aumentar_monedas(moneda.valor)
 
 
     def ejecutar(self):
