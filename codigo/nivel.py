@@ -13,7 +13,7 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas):
 
         #Configuración general
         self.ventana_surface = surface
@@ -34,6 +34,8 @@ class Nivel:
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
 
+        #Interfaz
+        self.aumentar_monedas = aumentar_monedas
 
         #Enemigo
         enemigo_layout = importar_csv_layout(data_nivel["enemigo"])
@@ -271,10 +273,19 @@ class Nivel:
         if pygame.sprite.spritecollide(self.jugador.sprite, self.olas_sprites, False):
             self.crear_menu(self.nivel_actual, 0)
 
+
     def comprobar_avance(self):
         if pygame.sprite.spritecollide(self.jugador.sprite, self.goal, False):
             self.crear_menu(self.nivel_actual, self.siguiente_nivel)
-        
+
+
+    def comprobar_colison_monedas(self):
+        colision_monedas = pygame.sprite.spritecollide(self.jugador.sprite, self.monedas_sprites, True)
+        if colision_monedas:
+            for moneda in colision_monedas:
+                self.aumentar_monedas(1)
+
+
     def ejecutar(self):
 
         #Orden
@@ -380,3 +391,5 @@ class Nivel:
         self.goal.update(self.cambio_mundo)
         self.comprobar_muerte()
         self.comprobar_avance()
+
+        self.comprobar_colison_monedas()
