@@ -44,7 +44,7 @@ class Juego():
     def game_over(self):
         if self.vida_actual <= 0:
             self.vida_actual = 40
-            self.monedas = 0
+            self.contador_monedas = 0
             self.nivel_maximo = 0
             self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
             self.estado = "menu"
