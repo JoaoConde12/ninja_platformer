@@ -1,9 +1,10 @@
 import pygame
 from importador import importar_carpeta
+from math import sin 
 
 
 class Jugador(pygame.sprite.Sprite):
-    def __init__(self, posicion, surface):
+    def __init__(self, posicion, surface, recibir_daño):
         super().__init__()
         self.cargar_personaje()
         self.indice_frame = 0
@@ -27,6 +28,12 @@ class Jugador(pygame.sprite.Sprite):
         self.derecha = False
         self.saltos_disponibles = 2
         self.saltos_realizados = 0
+
+        #Cambio de vida
+        self.recibir_daño = recibir_daño
+        self.invencible = False
+        self.duracion_invencibilidad = 650
+        self.herir_tiempo = 0
 
 
     def cargar_personaje(self):
@@ -58,6 +65,12 @@ class Jugador(pygame.sprite.Sprite):
             virar_imaginen = pygame.transform.flip(imagen, True, False)
             self.image = virar_imaginen
             #self.image = pygame.transform.scale(self.image, (32, 65))
+
+        if self.invencible:
+            alfa = self.valor_ola()
+            self.image.set_alpha(alfa)
+        else:
+            self.image.set_alpha(255)
 
         #Comprobar si está en el rectangulo
         if self.en_suelo and self.derecha:
@@ -95,8 +108,6 @@ class Jugador(pygame.sprite.Sprite):
                 self.saltos_realizados += 1
 
             
-
-
     def obtener_estados(self):
         if self.direccion.y < 0:
             self.estado = "saltar"
@@ -121,9 +132,31 @@ class Jugador(pygame.sprite.Sprite):
         self.direccion.y = self.velocidad_salto
 
 
+    def obtener_daño(self):
+        if not self.invencible:
+            self.recibir_daño(-10)
+            self.invencible = True
+            self.herir_tiempo = pygame.time.get_ticks()
+
+
+    def invencibilidad_tiempo(self):
+        if self.invencible:
+            tiempo_actual = pygame.time.get_ticks()
+            if tiempo_actual - self.herir_tiempo >= self.duracion_invencibilidad:
+                self.invencible = False
+
+
+    def valor_ola(self):
+        valor = sin(pygame.time.get_ticks())
+        if valor >= 0:
+            return 255
+        else:
+            return 0
+
     def update(self):
         self.obtener_teclas()
         self.obtener_estados()
         self.animar()
-        
+        self.invencibilidad_tiempo()
+        self.valor_ola()
         
