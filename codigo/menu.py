@@ -1,19 +1,22 @@
+from typing import Any
 import pygame
 from data_niveles import niveles
 
 
 class Nodo(pygame.sprite.Sprite):
-    def __init__(self, posicion, estado, velociad_icono):
+    def __init__(self, posicion, estado, velociad_icono, directorio):
         super().__init__()
-        self.image = pygame.Surface((100, 80))
+        self.image = pygame.image.load(directorio)
 
         if estado == "disponible":
-            self.image.fill("blue")
+            self.estado = "disponible"
         else:
-            self.image.fill("grey")
-
+            self.estado = "bloqueado"
+            pintar_negro = self.image.copy()
+            pintar_negro.fill("black", None, pygame.BLEND_RGBA_MULT)
+            self.image.blit(pintar_negro, (0, 0))
+        
         self.rect = self.image.get_rect(center = posicion)
-
         self.detectar_colision = pygame.Rect(self.rect.centerx - (velociad_icono / 2),
                                              self.rect.centery - (velociad_icono / 2),
                                              velociad_icono,
@@ -54,9 +57,9 @@ class Menu():
         self.nodos = pygame.sprite.Group()
         for indice, posicion in enumerate(niveles.values()):
             if indice <= self.nivel_final:
-                nodo_sprite = Nodo(posicion["posicion"], "disponible", self.velocidad)
+                nodo_sprite = Nodo(posicion["posicion"], "disponible", self.velocidad, posicion["grafico"])
             else:
-                nodo_sprite = Nodo(posicion["posicion"], "bloqueado", self.velocidad)
+                nodo_sprite = Nodo(posicion["posicion"], "bloqueado", self.velocidad, posicion["grafico"])
             self.nodos.add(nodo_sprite)
 
 
@@ -67,9 +70,10 @@ class Menu():
         
 
     def dibujar_lineas(self):
-        puntos = [posicion["posicion"] for indice, posicion in enumerate(niveles.values())
+        if self.nivel_final > 0:
+            puntos = [posicion["posicion"] for indice, posicion in enumerate(niveles.values())
                   if indice <= self.nivel_final]
-        pygame.draw.lines(self.ventana_surface, "blue", False, puntos, 6)
+            pygame.draw.lines(self.ventana_surface, "#01153E", False, puntos, 6)
 
 
     def mover_icono(self):
