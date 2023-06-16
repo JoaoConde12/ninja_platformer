@@ -21,19 +21,62 @@ nivel1 = {
     "terreno": "../niveles/nivel1_csv/nivel1_terreno.csv",
     "troncos": "../niveles/nivel1_csv/nivel1_troncos.csv",
     "posicion": (140, 352),
-    "desbloquea": 1
+    "desbloquea": 1,
+    "grafico": "../graficos/menu/nivel1.png"
 }
 
 nivel2 = {
+    "agua": "../niveles/nivel2_csv/nivel2_agua.csv",
+    "arbol1": "../niveles/nivel2_csv/nivel2_arbol1.csv",
+    "arbol2": "../niveles/nivel2_csv/nivel2_arbol2.csv",
+    "arbusto1": "../niveles/nivel2_csv/nivel2_arbusto1.csv",
+    "arbusto2": "../niveles/nivel2_csv/nivel2_arbusto2.csv",
+    "arbusto3": "../niveles/nivel2_csv/nivel2_arbusto3.csv",
+    "arbusto4": "../niveles/nivel2_csv/nivel2_arbusto4.csv",
+    "cajas": "../niveles/nivel2_csv/nivel2_cajas.csv",
+    "cartel1": "../niveles/nivel2_csv/nivel2_cartel1.csv",
+    "cartel2": "../niveles/nivel2_csv/nivel2_cartel2.csv",
+    "choque_enemigo": "../niveles/nivel2_csv/nivel2_choque_enemigo.csv",
+    "choque_personaje": "../niveles/nivel2_csv/nivel2_choque_personaje.csv",
+    "enemigo": "../niveles/nivel2_csv/nivel2_enemigo.csv",
+    "monedas": "../niveles/nivel2_csv/nivel2_monedas.csv",
+    "mushroom_dec": "../niveles/nivel2_csv/nivel2_mushroom_dec.csv",
+    "mushroom_salto": "../niveles/nivel2_csv/nivel2_mushroom_salto.csv",
+    "olas": "../niveles/nivel2_csv/nivel2_olas.csv",
+    "personaje": "../niveles/nivel2_csv/nivel2_personaje.csv",
+    "rocas": "../niveles/nivel2_csv/nivel2_rocas.csv",
+    "terreno": "../niveles/nivel2_csv/nivel2_terreno.csv",
+    "troncos": "../niveles/nivel2_csv/nivel2_troncos.csv",
     "posicion": (625, 352),
-    "contenido": "Este es el nivel 2",
-    "desbloquea": 2
+    "desbloquea": 2,
+    "grafico": "../graficos/menu/nivel2.png"
 }
 
 nivel3 = {
+    "agua": "../niveles/nivel2_csv/nivel2_agua.csv",
+    "arbol1": "../niveles/nivel2_csv/nivel2_arbol1.csv",
+    "arbol2": "../niveles/nivel2_csv/nivel2_arbol2.csv",
+    "arbusto1": "../niveles/nivel2_csv/nivel2_arbusto1.csv",
+    "arbusto2": "../niveles/nivel2_csv/nivel2_arbusto2.csv",
+    "arbusto3": "../niveles/nivel2_csv/nivel2_arbusto3.csv",
+    "arbusto4": "../niveles/nivel2_csv/nivel2_arbusto4.csv",
+    "cajas": "../niveles/nivel2_csv/nivel2_cajas.csv",
+    "cartel1": "../niveles/nivel2_csv/nivel2_cartel1.csv",
+    "cartel2": "../niveles/nivel2_csv/nivel2_cartel2.csv",
+    "choque_enemigo": "../niveles/nivel2_csv/nivel2_choque_enemigo.csv",
+    "choque_personaje": "../niveles/nivel2_csv/nivel2_choque_personaje.csv",
+    "enemigo": "../niveles/nivel2_csv/nivel2_enemigo.csv",
+    "monedas": "../niveles/nivel2_csv/nivel2_monedas.csv",
+    "mushroom_dec": "../niveles/nivel2_csv/nivel2_mushroom_dec.csv",
+    "mushroom_salto": "../niveles/nivel2_csv/nivel2_mushroom_salto.csv",
+    "olas": "../niveles/nivel2_csv/nivel2_olas.csv",
+    "personaje": "../niveles/nivel2_csv/nivel2_personaje.csv",
+    "rocas": "../niveles/nivel2_csv/nivel2_rocas.csv",
+    "terreno": "../niveles/nivel2_csv/nivel2_terreno.csv",
+    "troncos": "../niveles/nivel2_csv/nivel2_troncos.csv",
     "posicion": (1140, 352),
-    "contenido": "Este es el nivel 3",
-    "desbloquea": 2
+    "desbloquea": 2,
+    "grafico": "../graficos/menu/nivel3.png"
 }
 
 niveles = {
