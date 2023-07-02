@@ -40,7 +40,7 @@ class Interfaz:
 
     def mostrar_mushroom(self, cantidad):
         self.ventana_surface.blit(self.mushroom, self.mushroom_rect)
-        mushroom_surf = self.font.render(str(0), False, "#33323d")
+        mushroom_surf = self.font.render(str(cantidad), False, "#33323d")
         mushroom_rect = mushroom_surf.get_rect(midleft = (self.mushroom_rect.right + 4,
                                                                         self.mushroom_rect.centery))
         self.ventana_surface.blit(mushroom_surf, mushroom_rect)
