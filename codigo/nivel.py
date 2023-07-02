@@ -13,7 +13,7 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom):
 
         #Configuración general
         self.ventana_surface = surface
@@ -29,13 +29,14 @@ class Nivel:
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.Group()
-        self.configuracion_personaje(personaje_layout, recibir_daño)
+        self.configuracion_personaje(personaje_layout, recibir_daño, aumentar_mushroom)
 
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
 
         #Interfaz
         self.aumentar_monedas = aumentar_monedas
+        self.aumentar_mushroom = aumentar_mushroom
 
         #Enemigo
         enemigo_layout = importar_csv_layout(data_nivel["enemigo"])
@@ -196,7 +197,7 @@ class Nivel:
                 enemigo.reversa()
 
     
-    def configuracion_personaje(self, layout, recibir_daño):
+    def configuracion_personaje(self, layout, recibir_daño, aumentar_salto):
         for fila_indice, fila in enumerate(layout):
             for columna_indice, valor in enumerate(fila):
                 x = columna_indice * tamaño_bloque
@@ -286,6 +287,12 @@ class Nivel:
                 self.aumentar_monedas(moneda.valor)
 
 
+    def comprobar_colison_mushroom(self):
+        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
+        if colison_mushroom:
+            self.aumentar_mushroom(1)
+
+
     def comprobar_colision_enemigos(self):
         colision_enemigo = pygame.sprite.spritecollide(self.jugador.sprite, self.enemigo_sprites, False)
 
@@ -301,30 +308,8 @@ class Nivel:
                 else:
                     self.jugador.sprite.obtener_daño()
 
-    def ejecutar(self):
 
-        #Orden
-        """
-        1. Personaje
-        2. Enemigos
-        3. Terreno
-        4. Agua
-        5. Olas
-        6. Monedas
-        7. Mush salto
-        8. Mush dec
-        9. Cajas
-        10. Cartel 1
-        11. Cartel 2
-        12. Arbusto 1
-        13. Arbusto 3
-        14. Rocas
-        15. Arbol 1
-        16. Arbol 2
-        17. Troncos
-        18. Arbusto 2
-        19. Arbusto 4
-        """
+    def ejecutar(self):
         #Ejecución de todo el juego
         
         #Arboles, troncos, arbustos y rocas
@@ -409,3 +394,4 @@ class Nivel:
 
         self.comprobar_colison_monedas()
         self.comprobar_colision_enemigos()
+        self.comprobar_colison_mushroom()
