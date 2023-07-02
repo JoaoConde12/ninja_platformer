@@ -35,10 +35,6 @@ class Jugador(pygame.sprite.Sprite):
         self.herir_tiempo = 0
 
 
-    def aumentar_mushroom(self, cantidad):
-        self.saltos_mushroom += cantidad
-
-
     def cargar_personaje(self):
         directorio_personaje = "../graficos/personaje/"
         self.animaciones = {"inactivo": [],
@@ -90,10 +86,6 @@ class Jugador(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
 
 
-    def aumentar_saltos(self, cantidad):
-        self.contador_saltos += cantidad
-
-
     def obtener_teclas(self):
         teclas = pygame.key.get_pressed()
 
@@ -114,9 +106,6 @@ class Jugador(pygame.sprite.Sprite):
                 self.saltar()
                 self.saltos_realizados += 1
                 self.saltos_mushroom -= 1
-            
-    def obtener_tecla_salto(self):
-        self.presionar_salto = True
 
             
     def obtener_estados(self):
@@ -148,6 +137,10 @@ class Jugador(pygame.sprite.Sprite):
             self.recibir_daño(-10)
             self.invencible = True
             self.herir_tiempo = pygame.time.get_ticks()
+
+
+    def caer_vacio(self):
+        self.recibir_daño(-40)
 
 
     def invencibilidad_tiempo(self):
