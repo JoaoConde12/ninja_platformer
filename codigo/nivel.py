@@ -13,7 +13,7 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom, restar_mushroom):
 
         #Configuración general
         self.ventana_surface = surface
@@ -25,7 +25,6 @@ class Nivel:
         data_nivel = niveles[self.nivel_actual]
         self.siguiente_nivel = data_nivel["desbloquea"]
         self.contador_mushroom = 0
-        self.verificar = True
 
         #Jugador
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
@@ -39,6 +38,7 @@ class Nivel:
         #Interfaz
         self.aumentar_monedas = aumentar_monedas
         self.aumentar_mushroom = aumentar_mushroom
+        self.restar_mushroom = restar_mushroom
 
         #Enemigo
         enemigo_layout = importar_csv_layout(data_nivel["enemigo"])
@@ -197,15 +197,6 @@ class Nivel:
         for enemigo in self.enemigo_sprites.sprites():
             if pygame.sprite.spritecollide(enemigo, self.choque_enemigo_sprites, False):
                 enemigo.reversa()
-
-
-    def comprobar_colison_mushroom(self):
-        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
-        if colison_mushroom:
-            self.aumentar_mushroom(1)
-            self.contador_mushroom += 1
-            self.jugador.sprite.aumentar_mushroom(self.contador_mushroom)
-
             
     
     def configuracion_personaje(self, layout, recibir_daño):
@@ -285,6 +276,7 @@ class Nivel:
     def comprobar_muerte(self):
         if pygame.sprite.spritecollide(self.jugador.sprite, self.olas_sprites, False):
             self.crear_menu(self.nivel_actual, 0)
+            self.jugador.sprite.caer_vacio()
 
 
     def comprobar_avance(self):
@@ -297,6 +289,14 @@ class Nivel:
         if colision_monedas:
             for moneda in colision_monedas:
                 self.aumentar_monedas(moneda.valor)
+
+
+    def comprobar_colison_mushroom(self):
+        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
+        if colison_mushroom:
+            self.aumentar_mushroom(1)
+            self.contador_mushroom = 1
+            self.jugador.sprite.aumentar_mushroom(self.contador_mushroom)
 
 
     def comprobar_colision_enemigos(self):
