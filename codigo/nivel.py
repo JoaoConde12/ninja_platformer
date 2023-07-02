@@ -24,12 +24,14 @@ class Nivel:
         self.nivel_actual = nivel_actual
         data_nivel = niveles[self.nivel_actual]
         self.siguiente_nivel = data_nivel["desbloquea"]
+        self.contador_mushroom = 0
+        self.verificar = True
 
         #Jugador
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.Group()
-        self.configuracion_personaje(personaje_layout, recibir_daño, aumentar_mushroom)
+        self.configuracion_personaje(personaje_layout, recibir_daño)
 
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
@@ -196,18 +198,28 @@ class Nivel:
             if pygame.sprite.spritecollide(enemigo, self.choque_enemigo_sprites, False):
                 enemigo.reversa()
 
+
+    def comprobar_colison_mushroom(self):
+        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
+        if colison_mushroom:
+            self.aumentar_mushroom(1)
+            self.contador_mushroom += 1
+            self.jugador.sprite.aumentar_mushroom(self.contador_mushroom)
+
+            
     
-    def configuracion_personaje(self, layout, recibir_daño, aumentar_salto):
+    def configuracion_personaje(self, layout, recibir_daño):
         for fila_indice, fila in enumerate(layout):
             for columna_indice, valor in enumerate(fila):
                 x = columna_indice * tamaño_bloque
                 y = fila_indice * tamaño_bloque
                 if valor == "0":
-                    sprite = Jugador((x, y), self.ventana_surface, recibir_daño)
+                    sprite = Jugador((x, y), self.ventana_surface, recibir_daño, self.contador_mushroom)
                     self.jugador.add(sprite)
                 if valor == "1":
                     sprite = Bloque_estatico(tamaño_bloque, x, y, self.ventana_surface)
                     self.goal.add(sprite)
+
 
 
     def mover_camara_x(self):
@@ -285,12 +297,6 @@ class Nivel:
         if colision_monedas:
             for moneda in colision_monedas:
                 self.aumentar_monedas(moneda.valor)
-
-
-    def comprobar_colison_mushroom(self):
-        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
-        if colison_mushroom:
-            self.aumentar_mushroom(1)
 
 
     def comprobar_colision_enemigos(self):
@@ -395,3 +401,4 @@ class Nivel:
         self.comprobar_colison_monedas()
         self.comprobar_colision_enemigos()
         self.comprobar_colison_mushroom()
+        
