@@ -16,6 +16,11 @@ class Interfaz:
         self.contador_monedas_rect = self.contador_monedas.get_rect(topleft = (20, 71))
         self.font = pygame.font.Font("../graficos/interfaz/tipografia.TTF", 30)
 
+        #
+        self.mushroom = pygame.image.load("../graficos/interfaz/mushroom.png").convert_alpha()
+        self.mushroom_rect = self.mushroom.get_rect(topleft = (1190, 39))
+        self.font = pygame.font.Font("../graficos/interfaz/tipografia.TTF", 30)
+
 
     def mostrar_vida(self, vida_actual, vida_maxima):
         self.ventana_surface.blit(self.barra_vida, (20, 10))
@@ -31,3 +36,12 @@ class Interfaz:
         aumentar_monedas_rect = aumentar_monedas_surf.get_rect(midleft = (self.contador_monedas_rect.right + 4,
                                                                           self.contador_monedas_rect.centery))
         self.ventana_surface.blit(aumentar_monedas_surf, aumentar_monedas_rect)
+
+
+    def mostrar_mushroom(self, cantidad):
+        self.ventana_surface.blit(self.mushroom, self.mushroom_rect)
+        mushroom_surf = self.font.render(str(0), False, "#33323d")
+        mushroom_rect = mushroom_surf.get_rect(midleft = (self.mushroom_rect.right + 4,
+                                                                        self.mushroom_rect.centery))
+        self.ventana_surface.blit(mushroom_surf, mushroom_rect)
+
