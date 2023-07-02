@@ -4,13 +4,12 @@ from math import sin
 
 
 class Jugador(pygame.sprite.Sprite):
-    def __init__(self, posicion, surface, recibir_daño):
+    def __init__(self, posicion, surface, recibir_daño, saltos_mushroom):
         super().__init__()
         self.cargar_personaje()
         self.indice_frame = 0
         self.velocidad_animacion = 0.15
         self.image = self.animaciones["inactivo"][self.indice_frame]
-        #self.image = pygame.transform.scale(self.image, (32, 65))
         self.rect = self.image.get_rect(topleft = posicion)
 
         #Movimiento del jugador
@@ -26,14 +25,18 @@ class Jugador(pygame.sprite.Sprite):
         self.en_techo = False
         self.izquierda = False
         self.derecha = False
-        self.saltos_disponibles = 2
         self.saltos_realizados = 0
+        self.saltos_mushroom = saltos_mushroom
 
         #Cambio de vida
         self.recibir_daño = recibir_daño
         self.invencible = False
         self.duracion_invencibilidad = 650
         self.herir_tiempo = 0
+
+
+    def aumentar_mushroom(self, cantidad):
+        self.saltos_mushroom += cantidad
 
 
     def cargar_personaje(self):
@@ -87,6 +90,10 @@ class Jugador(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
 
 
+    def aumentar_saltos(self, cantidad):
+        self.contador_saltos += cantidad
+
+
     def obtener_teclas(self):
         teclas = pygame.key.get_pressed()
 
@@ -103,9 +110,13 @@ class Jugador(pygame.sprite.Sprite):
             if self.en_suelo:
                 self.saltar()
                 self.saltos_realizados = 1
-            elif self.saltos_realizados < 2 and self.direccion.y >= 0:
+            elif self.saltos_realizados < 2 and self.direccion.y >= 0 and self.saltos_mushroom >= 1:
                 self.saltar()
                 self.saltos_realizados += 1
+                self.saltos_mushroom -= 1
+            
+    def obtener_tecla_salto(self):
+        self.presionar_salto = True
 
             
     def obtener_estados(self):
@@ -152,6 +163,7 @@ class Jugador(pygame.sprite.Sprite):
             return 255
         else:
             return 0
+
 
     def update(self):
         self.obtener_teclas()
