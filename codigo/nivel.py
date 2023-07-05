@@ -13,7 +13,7 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom, restar_mushroom):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom):
 
         #Configuración general
         self.ventana_surface = surface
@@ -25,6 +25,7 @@ class Nivel:
         data_nivel = niveles[self.nivel_actual]
         self.siguiente_nivel = data_nivel["desbloquea"]
         self.contador_mushroom = 0
+        self.contador_saltos_dobles = 0
 
         #Jugador
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
@@ -38,7 +39,6 @@ class Nivel:
         #Interfaz
         self.aumentar_monedas = aumentar_monedas
         self.aumentar_mushroom = aumentar_mushroom
-        self.restar_mushroom = restar_mushroom
 
         #Enemigo
         enemigo_layout = importar_csv_layout(data_nivel["enemigo"])
@@ -218,10 +218,10 @@ class Nivel:
         jugador_x = jugador.rect.centerx
         direcion_x = jugador.direccion.x
 
-        if jugador_x < ventana_ancho / 4 and direcion_x < 0:
+        if jugador_x < ventana_ancho / 2 and direcion_x < 0:
             self.cambio_mundo = 8
             jugador.velocidad = 0
-        elif jugador_x > ventana_ancho - (ventana_ancho / 4) and direcion_x > 0:
+        elif jugador_x > ventana_ancho - (ventana_ancho / 2) and direcion_x > 0:
             self.cambio_mundo = -8
             jugador.velocidad = 0
         else:
@@ -297,6 +297,13 @@ class Nivel:
             self.aumentar_mushroom(1)
             self.contador_mushroom = 1
             self.jugador.sprite.aumentar_mushroom(self.contador_mushroom)
+
+
+    def verificar_doble_salto(self):
+        if self.jugador.sprite.comprobar_doble_salto() == True:
+            self.contador_saltos_dobles -= 1
+            self.aumentar_mushroom(self.contador_saltos_dobles)
+            
 
 
     def comprobar_colision_enemigos(self):
@@ -401,4 +408,4 @@ class Nivel:
         self.comprobar_colison_monedas()
         self.comprobar_colision_enemigos()
         self.comprobar_colison_mushroom()
-        
+        self.verificar_doble_salto()
