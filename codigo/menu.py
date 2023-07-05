@@ -1,4 +1,3 @@
-from typing import Any
 import pygame
 from data_niveles import niveles
 
