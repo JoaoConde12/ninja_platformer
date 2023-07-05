@@ -25,8 +25,12 @@ class Jugador(pygame.sprite.Sprite):
         self.en_techo = False
         self.izquierda = False
         self.derecha = False
+
+        #Doble salto
         self.saltos_realizados = 0
         self.saltos_mushroom = saltos_mushroom
+        self.tiempo_resta = 0
+        self.doble_salto = 0
 
         #Cambio de vida
         self.recibir_daño = recibir_daño
@@ -59,11 +63,9 @@ class Jugador(pygame.sprite.Sprite):
 
         if self.mirar_derecha:
             self.image = imagen
-            #self.image = pygame.transform.scale(self.image, (32, 65))
         else:
             virar_imaginen = pygame.transform.flip(imagen, True, False)
             self.image = virar_imaginen
-            #self.image = pygame.transform.scale(self.image, (32, 65))
 
         if self.invencible:
             alfa = self.valor_ola()
@@ -86,6 +88,10 @@ class Jugador(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
 
 
+    def aumentar_mushroom(self, cantidad):
+        self.saltos_mushroom += cantidad
+
+
     def obtener_teclas(self):
         teclas = pygame.key.get_pressed()
 
@@ -106,6 +112,15 @@ class Jugador(pygame.sprite.Sprite):
                 self.saltar()
                 self.saltos_realizados += 1
                 self.saltos_mushroom -= 1
+
+            if self.saltos_realizados == 1:
+                self.doble_salto = False
+            elif self.saltos_realizados == 2:
+                self.doble_salto = True 
+
+
+    def comprobar_doble_salto(self):
+        return self.doble_salto
 
             
     def obtener_estados(self):
