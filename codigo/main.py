@@ -16,6 +16,7 @@ class Juego():
         self.contador_monedas = 0
         self.contador_mushrooms = 0
         self.saltos = 0
+        self.restar_mushroom = False
 
         #Creacion menú
         self.menu = Menu(0, self.nivel_maximo, ventana, self.crear_nivel)
@@ -26,7 +27,7 @@ class Juego():
 
 
     def crear_nivel(self, nivel_actual):
-        self.nivel = Nivel(nivel_actual, ventana, self.crear_menu, self.aumentar_monedas, self.recibir_daño, self.aumentar_mushroom, self.restar_mushroom)
+        self.nivel = Nivel(nivel_actual, ventana, self.crear_menu, self.aumentar_monedas, self.recibir_daño, self.aumentar_mushroom)
         self.estado = "nivel"
 
 
@@ -43,11 +44,12 @@ class Juego():
 
 
     def aumentar_mushroom(self, cantidad):
-        self.contador_mushrooms += cantidad
-
-
-    def restar_mushroom(self, cantidad):
-        self.contador_monedas -= cantidad
+        if cantidad < 0 and not self.restar_mushroom:
+            self.contador_mushrooms -= 1
+            self.restar_mushroom = True
+        elif cantidad > 0:
+            self.contador_mushrooms += cantidad
+            self.restar_mushroom = False        
 
 
     def recibir_daño(self, cantidad):
