@@ -90,7 +90,7 @@ Jugador recuperando vida:
 
 Contador de monedas:
 
-![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/d260b44d-8da4-4fff-8060-128ca6d8353c)
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/b6b2e6d8-9bd8-447b-8951-b06c0978c5d3)
 
 ![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/74c5c51a-ea5e-47ce-857d-b44637a429bf)
 
