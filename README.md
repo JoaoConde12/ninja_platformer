@@ -88,5 +88,15 @@ Jugador recuperando vida:
 
 ![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/62cf16cf-bcb4-48dc-927e-009e0f8c609f)
 
+Contador de monedas:
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/d260b44d-8da4-4fff-8060-128ca6d8353c)
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/74c5c51a-ea5e-47ce-857d-b44637a429bf)
+
+Colision con caja:
+
+![image](https://github.com/JoaoConde12/ninja_platformer/assets/132232545/7f9ec65f-f9dc-4edb-9a6e-406b1707bbfc)
+
 
 
