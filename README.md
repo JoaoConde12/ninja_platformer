@@ -1,6 +1,6 @@
 # Ninja Platformer
 
-De forma general, lo que se ha hecho a lo largo de este primer progreso, ha sido primer indagar sobre los lenguajes de programación existentes con sus respectivas librerías y cual se adaptaría mejor para llevar acabo el desarrollo de un videojuego. Después de haber seleccionado un lenguaje, se empezó con la planificación del juego, se decidió que sería del estilo de plataformas y que tuviera entre 2 a 3 niveles, luego se pensó en tratar de implementar alguna que otra mecánica para que el juego no sea tan monótono y finalmente se dio paso al desarrollo del videojuego
+De forma general, lo que se ha hecho a lo largo de este semestre, ha sido primer indagar sobre los lenguajes de programación existentes con sus respectivas librerías y cual se adaptaría mejor para llevar acabo el desarrollo de un videojuego. Después de haber seleccionado un lenguaje, se empezó con la planificación del juego, se decidió que sería del estilo de plataformas y que tuviera entre 2 a 3 niveles, luego se pensó en tratar de implementar alguna que otra mecánica para que el juego no sea tan monótono y finalmente se dio paso al desarrollo del videojuego
 
 ## Lenguaje seleccionado y librerías
 
