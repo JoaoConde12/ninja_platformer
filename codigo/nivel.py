@@ -13,11 +13,18 @@ from mushrooms import Mushroom_salto, Mushroom_decoracion
 
 
 class Nivel:
-    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom):
+    def __init__(self, nivel_actual, surface, crear_menu, aumentar_monedas, recibir_daño, aumentar_mushroom, aumentar_vida):
 
         #Configuración general
         self.ventana_surface = surface
         self.cambio_mundo = 0
+
+        #Efectos de sonido
+        self.sonido_moneda = pygame.mixer.Sound("../audio/efectos/coin.wav")
+        self.sonido_moneda.set_volume(0.4)
+        self.sonido_pisada = pygame.mixer.Sound("../audio/efectos/stomp.wav")
+        self.sonido_pisada.set_volume(0.4)
+        self.sonido_mushroom = pygame.mixer.Sound("../audio/efectos/mushroom.wav")
 
         #Conección con el Menú
         self.crear_menu = crear_menu
@@ -31,7 +38,7 @@ class Nivel:
         personaje_layout = importar_csv_layout(data_nivel["personaje"])
         self.jugador = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.Group()
-        self.configuracion_personaje(personaje_layout, recibir_daño)
+        self.configuracion_personaje(personaje_layout, recibir_daño, aumentar_vida)
 
         choque_personaje_layout = importar_csv_layout(data_nivel["choque_personaje"])
         self.choque_personaje_sprites = self.crear_grupos_bloques(choque_personaje_layout, "choque_personaje")
@@ -199,18 +206,17 @@ class Nivel:
                 enemigo.reversa()
             
     
-    def configuracion_personaje(self, layout, recibir_daño):
+    def configuracion_personaje(self, layout, recibir_daño, aumentar_vida):
         for fila_indice, fila in enumerate(layout):
             for columna_indice, valor in enumerate(fila):
                 x = columna_indice * tamaño_bloque
                 y = fila_indice * tamaño_bloque
                 if valor == "0":
-                    sprite = Jugador((x, y), self.ventana_surface, recibir_daño, self.contador_mushroom)
+                    sprite = Jugador((x, y), self.ventana_surface, recibir_daño, self.contador_mushroom, aumentar_vida)
                     self.jugador.add(sprite)
                 if valor == "1":
                     sprite = Bloque_estatico(tamaño_bloque, x, y, self.ventana_surface)
                     self.goal.add(sprite)
-
 
 
     def mover_camara_x(self):
@@ -287,6 +293,7 @@ class Nivel:
     def comprobar_colison_monedas(self):
         colision_monedas = pygame.sprite.spritecollide(self.jugador.sprite, self.monedas_sprites, True)
         if colision_monedas:
+            self.sonido_moneda.play() 
             for moneda in colision_monedas:
                 self.aumentar_monedas(moneda.valor)
 
@@ -294,9 +301,16 @@ class Nivel:
     def comprobar_colison_mushroom(self):
         colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_salto_sprites, True)
         if colison_mushroom:
+            self.sonido_mushroom.play()
             self.aumentar_mushroom(1)
             self.contador_mushroom = 1
             self.jugador.sprite.aumentar_mushroom(self.contador_mushroom)
+
+    
+    def incremento_mushroom_vida(self):
+        colison_mushroom = pygame.sprite.spritecollide(self.jugador.sprite, self.mushroom_dec_sprites, True)
+        if colison_mushroom:
+            self.jugador.sprite.incrementar_vida()
 
 
     def verificar_doble_salto(self):
@@ -304,7 +318,6 @@ class Nivel:
             self.contador_saltos_dobles -= 1
             self.aumentar_mushroom(self.contador_saltos_dobles)
             
-
 
     def comprobar_colision_enemigos(self):
         colision_enemigo = pygame.sprite.spritecollide(self.jugador.sprite, self.enemigo_sprites, False)
@@ -316,6 +329,7 @@ class Nivel:
                 jugador_bottom = self.jugador.sprite.rect.bottom
 
                 if enemigo_top < jugador_bottom < enemigo_center and self.jugador.sprite.direccion.y >= 0:
+                    self.sonido_pisada.play()
                     self.jugador.sprite.direccion.y = -10
                     enemigo.kill()
                 else:
@@ -408,4 +422,5 @@ class Nivel:
         self.comprobar_colison_monedas()
         self.comprobar_colision_enemigos()
         self.comprobar_colison_mushroom()
+        self.incremento_mushroom_vida()
         self.verificar_doble_salto()
