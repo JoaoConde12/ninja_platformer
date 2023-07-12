@@ -4,7 +4,7 @@ from math import sin
 
 
 class Jugador(pygame.sprite.Sprite):
-    def __init__(self, posicion, surface, recibir_daño, saltos_mushroom):
+    def __init__(self, posicion, surface, recibir_daño, saltos_mushroom, aumentar_vida):
         super().__init__()
         self.cargar_personaje()
         self.indice_frame = 0
@@ -30,13 +30,19 @@ class Jugador(pygame.sprite.Sprite):
         self.saltos_realizados = 0
         self.saltos_mushroom = saltos_mushroom
         self.tiempo_resta = 0
-        self.doble_salto = 0
+        self.doble_salto = False
 
         #Cambio de vida
         self.recibir_daño = recibir_daño
+        self.aumentar_vida = aumentar_vida
         self.invencible = False
         self.duracion_invencibilidad = 650
         self.herir_tiempo = 0
+
+        #Efectos de sonido
+        self.sonido_salto = pygame.mixer.Sound("../audio/efectos/jump.wav")
+        self.sonido_salto.set_volume(0.3)
+        self.sonido_golpear = pygame.mixer.Sound("../audio/efectos/hit.wav")
 
 
     def cargar_personaje(self):
@@ -145,10 +151,16 @@ class Jugador(pygame.sprite.Sprite):
 
     def saltar(self):
         self.direccion.y = self.velocidad_salto
+        self.sonido_salto.play()
+
+
+    def incrementar_vida(self):
+        self.aumentar_vida(10)        
 
 
     def obtener_daño(self):
         if not self.invencible:
+            self.sonido_golpear.play()
             self.recibir_daño(-10)
             self.invencible = True
             self.herir_tiempo = pygame.time.get_ticks()
